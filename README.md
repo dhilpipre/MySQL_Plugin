@@ -261,3 +261,4 @@ This plugin uses an extensible architecture that allows you to define new MySQL 
 ## Credits
 
 The MySQL plugin was originally authored by [Ronald Bradford](http://ronaldbradford.com/) of [EffectiveMySQL](http://effectivemysql.com/). Subsequent updates and support are provided by [New Relic](http://newrelic.com/platform).
+# MYSQL_Plugin
