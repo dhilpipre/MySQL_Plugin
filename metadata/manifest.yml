@@ -26,3 +26,4 @@ Group-Overrides:
   - components:
     - mysqlplugin-1.0
 Source-Url: https://github.com/dhilpipre/MySQL_Plugin.git
+
