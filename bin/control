@@ -12,7 +12,7 @@ PIDFILE=${PLUGINHOME}/plugin.pid
 
 PATH=$JAVA_HOME/bin:$PATH
 
-PLUGINCMD="java -Xmx128m -jar $PLUGINHOME/plugin.jar
+PLUGINCMD="java -Xmx128m -jar $PLUGINHOME/plugin.jar"
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
