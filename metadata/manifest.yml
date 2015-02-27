@@ -1,4 +1,4 @@
-Name: mysql_plugin
+Name: mysqlplugin
 Cartridge-Short-Name: MySQLPlugin
 Cartridge-Version: '1.0'
 Cartridge-Vendor: newrelic
@@ -10,8 +10,8 @@ Categories:
   - service
   - java
 Provides:
-  - mysql_plugin-1.0
-  - "mysql_plugin"
+  - mysqlplugin-1.0
+  - "mysqlplugin"
 Subscribes:
   set-db-connection-info:
     Type: "NET_TCP:db:connection-info"
@@ -24,7 +24,5 @@ Scaling:
   Max: 1
 Group-Overrides:
   - components:
-    - rezsystem-1.0
-Additional-Control-Actions:
-  - threaddump
-Source-Url: https://github.com/dhilpipre/RezSystem.git
+    - mysqlplugin-1.0
+Source-Url: https://github.com/dhilpipre/MySQL_Plugin.git
