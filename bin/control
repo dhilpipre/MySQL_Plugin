@@ -3,30 +3,28 @@
 PATH=/bin:/usr/bin:$PATH
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-PLUGINHOME=$OPENSHIFT_MYSQLPLUGIN_DIR
+NRSERVERHOME=$OPENSHIFT_NRSERVER_DIR
 
-LOGFILE=${PLUGINHOME}/Plugin.out
+LOGFILE=${NRSERVERHOME}/Plugin.out
 
 # the path to your PID file
-PIDFILE=${PLUGINHOME}/plugin.pid
+PIDFILE=${NRSERVERHOME}/plugin.pid
 
-PATH=$JAVA_HOME/bin:$PATH
-
-PLUGINCMD="java -Xmx128m -jar $PLUGINHOME/plugin.jar"
+SERVERMONITORCMD="$NRSERVERHOME/etc/init.d/newrelic-sysmond "
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 function start {
 	getStatus
 	if [ $RUNNING -eq 1 ]; then
-	    client_result "MySQL_Plugin (pid $PID) already running"
+	    client_result "New Relic Server Monitor (pid $PID) already running"
 	else
-		nohup $PLUGINCMD >> $LOGFILE 2>1 &
+		nohup $SERVERMONITORCMD start >> $LOGFILE 2>1 &
 		if [ "x$!" != "x" ] ; then
 		    echo "$!" > $PIDFILE
-		    client_result "MySQL_Plugin started"
+		    client_result "New Relic Server Monitor started"
 		else
-		    client_result "MySQL_Plugin could not be started"
+		    client_result "New Relic Server Monitor could not be started"
 	    	    ERROR=3
 		fi	
 	fi
@@ -37,14 +35,8 @@ function stop {
 	if [ $RUNNING -eq 0 ]; then
 	    client_result "$0 $ARG: $STATUS"
 	fi
-	if kill $PID ; then
-	    rm $PIDFILE
-	    client_result "MySQL_Plugin stopped"
-	else
-	    client_result "MySQL_Plugin could not be stopped"
-	    ERROR=4
-	fi
-
+    $SERVERMONITORCMD stop
+    rm $PIDFILE
 }
 
 function restart {
@@ -58,14 +50,14 @@ function getStatus {
     if [ -f $PIDFILE ] ; then
 	PID=`cat $PIDFILE`
 	if [ "x$PID" != "x" ] && kill -0 $PID 2>/dev/null ; then
-	    STATUS="MySQL_Plugin (pid $PID) running"
+	    STATUS="New Relic Server Monitor (pid $PID) running"
 	    RUNNING=1
 	else
-	    STATUS="MySQL_Plugin (pid $PID?) not running"
+	    STATUS="New Relic Server Monitor (pid $PID?) not running"
 	    RUNNING=0
 	fi
     else
-	STATUS="MySQL_Plugin (no pid file) not running"
+	STATUS="New Relic Server Monitor (no pid file) not running"
 	RUNNING=0
     fi
 
@@ -81,7 +73,7 @@ function catchall {
 }
 
 
-cd ${PLUGINHOME}
+cd ${NRSERVERHOME}
 
     case $1 in
     start) start ;;
